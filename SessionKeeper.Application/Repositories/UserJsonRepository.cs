@@ -52,12 +52,12 @@ public class UserJsonRepository : IUserRepository
 		return result;
 	}
 
-	public Result Authenticate(string login, string password)
+	public Result Authenticate(string login, string passwordHash)
 	{
 		if(!_users.TryGetValue(login, out var user))
 			return new UserDoesNotExistError();
 
-		if(!BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
+		if(passwordHash != user.PasswordHash)
 			return new PasswordsDoNotMathError();
 
 		return Result.Ok();

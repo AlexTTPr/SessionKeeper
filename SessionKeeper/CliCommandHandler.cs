@@ -43,7 +43,7 @@ public class CliCommandHandler : ICliCommandHandler
 
 	private void Create(string login, string password)
 	{
-		var result = _sessionManager.AddSession(login, password);
+		var result = _sessionManager.AddSession(login, BCrypt.Net.BCrypt.HashPassword(password));
 
 		Console.WriteLine(result.IsSuccess ? result.Value.SessionId.ToString() : result.Errors.Last().Message);
 	}

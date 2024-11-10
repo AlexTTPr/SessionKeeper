@@ -11,7 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D5D92B95-F71
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8330C5DA-B8A6-4D08-841B-46AB8C49EB72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SessionKeeper.Tests", "SessionKeeper.Tests\SessionKeeper.Tests.csproj", "{7FA917AA-93A5-4A24-A7B8-8367D39FF71A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SessionKeeper.Tests", "SessionKeeper.Tests\SessionKeeper.Tests.csproj", "{7FA917AA-93A5-4A24-A7B8-8367D39FF71A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SessionKeeper.Api", "SessionKeeper.Api\SessionKeeper.Api.csproj", "{FB42C7D2-1AA0-4BA1-8641-0796306896B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{7FA917AA-93A5-4A24-A7B8-8367D39FF71A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FA917AA-93A5-4A24-A7B8-8367D39FF71A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FA917AA-93A5-4A24-A7B8-8367D39FF71A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB42C7D2-1AA0-4BA1-8641-0796306896B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB42C7D2-1AA0-4BA1-8641-0796306896B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB42C7D2-1AA0-4BA1-8641-0796306896B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB42C7D2-1AA0-4BA1-8641-0796306896B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{5E5CCD20-444D-4709-8BE9-3B498F1EC323} = {D5D92B95-F718-40BF-9B67-3EFEE3806E08}
 		{77ED69C4-AC9D-4F3B-A662-0566657B5460} = {D5D92B95-F718-40BF-9B67-3EFEE3806E08}
 		{7FA917AA-93A5-4A24-A7B8-8367D39FF71A} = {8330C5DA-B8A6-4D08-841B-46AB8C49EB72}
+		{FB42C7D2-1AA0-4BA1-8641-0796306896B6} = {D5D92B95-F718-40BF-9B67-3EFEE3806E08}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DC4E50AD-4118-43D6-BC34-8E5060E766E4}
