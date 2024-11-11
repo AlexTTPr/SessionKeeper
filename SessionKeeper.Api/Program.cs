@@ -1,4 +1,7 @@
+using System.Threading.RateLimiting;
+
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 using SessionKeeper.Api;
 using SessionKeeper.Application;
@@ -12,7 +15,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDependencies(builder.Configuration["InitUsersFile"]!, builder.Configuration["UsersFile"]!, builder.Configuration["SessionsFile"]!);
 
-
+builder.Services.AddRateLimiter(_ => _
+	.AddFixedWindowLimiter(policyName: "fixed", options =>
+	{
+		options.PermitLimit = 1000;
+		options.Window = TimeSpan.FromSeconds(10);
+		options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+		options.QueueLimit = 100;
+	}));
 
 var app = builder.Build();
 
@@ -23,8 +33,7 @@ if(app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-
+app.UseRateLimiter();
 
 //NOTE: MAPs
 app.MapGet("/api/sessions/{id:guid}", (Guid Id, ISessionManager sessionManager) =>
