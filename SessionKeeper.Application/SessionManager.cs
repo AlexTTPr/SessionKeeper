@@ -16,9 +16,9 @@ public class SessionManager : ISessionManager
 		_sessionRepository = sessionRepository;
 	}
 
-	public Result<Session> AddSession(string login, string passwordHash)
+	public Result<Session> AddSession(string login, string password)
 	{
-		var authenticatedResult = _userRepository.Authenticate(login, passwordHash);
+		var authenticatedResult = _userRepository.Authenticate(login, password);
 
 		if(authenticatedResult.IsFailed)
 			return Result.Fail(authenticatedResult.Errors);

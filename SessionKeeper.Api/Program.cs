@@ -26,11 +26,9 @@ builder.Services.AddRateLimiter(_ => _
 
 var app = builder.Build();
 
-if(app.Environment.IsDevelopment())
-{
-	app.UseSwagger();
-	app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.UseRateLimiter();
@@ -47,7 +45,7 @@ app.MapGet("/api/sessions/{id:guid}", (Guid Id, ISessionManager sessionManager) 
 	return error switch
 	{
 		SessionDoesNotExistError => Results.NotFound(),
-		SessionIsNotAliveError => Results.BadRequest(error.Message),
+		SessionIsNotAliveError => Results.StatusCode(410),
 		_ => Results.NotFound(),
 	};
 })
@@ -55,7 +53,7 @@ app.MapGet("/api/sessions/{id:guid}", (Guid Id, ISessionManager sessionManager) 
 
 app.MapPost("/api/sessions", ([FromBody()] CreateSessionRequest createSessionRequest, ISessionManager sessionManager) =>
 {
-	var res = sessionManager.AddSession(createSessionRequest.Login, createSessionRequest.PasswordHash);
+	var res = sessionManager.AddSession(createSessionRequest.Login, createSessionRequest.Password);
 
 	if(res.IsSuccess)
 		return Results.Ok(res.Value);
@@ -64,7 +62,7 @@ app.MapPost("/api/sessions", ([FromBody()] CreateSessionRequest createSessionReq
 	return error switch
 	{
 		UserDoesNotExistError => Results.NotFound(),
-		PasswordsDoNotMathError => Results.BadRequest(error.Message),
+		PasswordsDoNotMatchError => Results.Unauthorized(),
 		_ => Results.NotFound(),
 	};
 })
@@ -75,13 +73,13 @@ app.MapDelete("/api/sessions/{id:guid}", (Guid Id, ISessionManager sessionManage
 	var res = sessionManager.DeleteSession(Id.ToString());
 
 	if(res.IsSuccess)
-		return Results.NoContent();
+		return Results.Ok();
 
-	return Results.BadRequest();
+	return Results.StatusCode(500);
 })
 	.WithOpenApi();
 
 app.Run();
 
 
-internal record CreateSessionRequest(string Login, string PasswordHash);
+internal record CreateSessionRequest(string Login, string Password);

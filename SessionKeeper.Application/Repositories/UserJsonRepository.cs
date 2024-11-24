@@ -52,13 +52,13 @@ public class UserJsonRepository : IUserRepository
 		return result;
 	}
 
-	public Result Authenticate(string login, string passwordHash)
+	public Result Authenticate(string login, string password)
 	{
 		if(!_users.TryGetValue(login, out var user))
 			return new UserDoesNotExistError();
 
-		if(passwordHash != user.PasswordHash)
-			return new PasswordsDoNotMathError();
+		if(!BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
+			return new PasswordsDoNotMatchError();
 
 		return Result.Ok();
 	}
@@ -75,7 +75,7 @@ public class UserDoesNotExistError : Error
 	public UserDoesNotExistError() : base("Пользователя не существует") { }
 }
 
-public class PasswordsDoNotMathError : Error
+public class PasswordsDoNotMatchError : Error
 {
-	public PasswordsDoNotMathError() : base("Пароли не совпадают") { }
+	public PasswordsDoNotMatchError() : base("Пароли не совпадают") { }
 }
