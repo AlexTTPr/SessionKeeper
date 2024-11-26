@@ -8,5 +8,4 @@ public interface ISessionRepository
 	Result<Session> Get(string sessionId);
 	Result<Session> Create(Session session);
 	Result Delete(string sessionId);
-	Result ClearDeadSessions();
 }

@@ -9,11 +9,13 @@ using SessionKeeper.Application.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDependencies(builder.Configuration["InitUsersFile"]!, builder.Configuration["UsersFile"]!, builder.Configuration["SessionsFile"]!);
+
+builder.Services
+	.AddRedisCache(builder.Configuration.GetConnectionString("Redis")!)
+	.AddNpgStorage(builder.Configuration.GetConnectionString("PostgreSQL")!)
+	.UseNpgsqlAndRedisStorages();
 
 builder.Services.AddRateLimiter(_ => _
 	.AddFixedWindowLimiter(policyName: "fixed", options =>
@@ -25,7 +27,6 @@ builder.Services.AddRateLimiter(_ => _
 	}));
 
 var app = builder.Build();
-
 
 app.UseSwagger();
 app.UseSwaggerUI();
@@ -80,6 +81,7 @@ app.MapDelete("/api/sessions/{id:guid}", (Guid Id, ISessionManager sessionManage
 	.WithOpenApi();
 
 app.Run();
+
 
 
 internal record CreateSessionRequest(string Login, string Password);
