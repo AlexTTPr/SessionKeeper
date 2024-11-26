@@ -62,12 +62,12 @@ public class UserJsonRepository : IUserRepository
 
 		return Result.Ok();
 	}
+}
 
-	private class UserInfo
-	{
-		public string Login { get; set; }
-		public string Password { get; set; }
-	}
+public class UserInfo
+{
+	public string Login { get; set; }
+	public string Password { get; set; }
 }
 
 public class UserDoesNotExistError : Error
